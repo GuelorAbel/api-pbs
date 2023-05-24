@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,15 +20,15 @@ use Illuminate\Support\Facades\Route;
 
 // récupérer la liste des articles
 Route::get('posts', [PostController::class, 'index']);
-
 // ajouter un article dans la base de données, on oeut utiliser POST | PUT | PATCH
 Route::post('posts/create', [PostController::class, 'store']);
-
 // mettre à jour un article
 Route::put('posts/edit/{post}', [PostController::class, 'update']);
-
 // supprimer un article
 Route::delete('posts/{post}', [PostController::class, 'delete']);
+// création d'un compte utilisateur
+Route::post('/signup', [UserController::class, 'signup']);
+
 
 // c'est une route est protégée, elle retourne l'utilisateur connecté
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

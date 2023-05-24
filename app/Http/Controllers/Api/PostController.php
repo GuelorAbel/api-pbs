@@ -18,7 +18,7 @@ class PostController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'les articles sont disponibles',
-                'data' => Post::all()
+                'data' => Post::all() //récupération de tous les articles
             ]);
         } catch (Exception $e) {
             return response()->json($e);
@@ -35,7 +35,7 @@ class PostController extends Controller
             // les données à ajouter
             $post->title = $request->title;
             $post->description = $request->description;
-            $post->save();
+            $post->save(); //c'est l'action qui permet d'ajouter une donnée à la soumission du formulaire
 
             return response()->json([
                 'status' => 200,
@@ -48,7 +48,7 @@ class PostController extends Controller
     }
 
     // le controller de mise à jour d'unarticle
-    public function update(EditPostRequest $request, Post $post)
+    public function update(EditPostRequest $request, Post $post) //Post $post effectue la vérification directemnt,je n'ai donc pas besoin du if(){}else{}
     {
         try {
             // $post = Post::find($post); //il récupère le post passé dynamiquement dans l'URL. Cette ligne a été injectée  partir de Post $post
@@ -56,7 +56,7 @@ class PostController extends Controller
             // modification des données récupérées
             $post->title = $request->title;
             $post->description = $request->description;
-            $post->save();
+            $post->save(); //c'est l'action qui modifie les datas à la soumission du formulaire
 
             return response()->json([
                 'status' => 200,
@@ -69,13 +69,14 @@ class PostController extends Controller
     }
 
     // le controller de suppression
-    public function delete(Post $post)
+    public function delete(Post $post)  //Post $post effectue la vérification directemnt,je n'ai donc pas besoin du if(){}else{}
     {
         try {
             $post->delete();
             return response()->json([
                 'status' => 200,
-                'message' => 'l\'article a été supprimé avec succès'
+                'message' => 'l\'article a été supprimé avec succès',
+                'data' => $post
             ]);
         } catch (Exception $e) {
             return response()->json($e);

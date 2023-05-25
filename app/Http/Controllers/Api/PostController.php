@@ -11,7 +11,7 @@ use Exception;
 class PostController extends Controller
 {
 
-    // le controller qui récupère tous les articles
+    // la méthode qui récupère tous les articles
     public function index()
     {
         try {
@@ -25,7 +25,7 @@ class PostController extends Controller
         }
     }
 
-    // le controller d'ajout d'un article
+    // la méthode d'ajout d'un article
     public function store(CreatePostRequest $request)
     {
         try {
@@ -35,6 +35,7 @@ class PostController extends Controller
             // les données à ajouter
             $post->title = $request->title;
             $post->description = $request->description;
+            $post->user_id = auth()->user()->id;
             $post->save(); //c'est l'action qui permet d'ajouter une donnée à la soumission du formulaire
 
             return response()->json([
@@ -47,7 +48,7 @@ class PostController extends Controller
         }
     }
 
-    // le controller de mise à jour d'unarticle
+    // la méthode de mise à jour d'unarticle
     public function update(EditPostRequest $request, Post $post) //Post $post effectue la vérification directemnt,je n'ai donc pas besoin du if(){}else{}
     {
         try {
@@ -56,7 +57,15 @@ class PostController extends Controller
             // modification des données récupérées
             $post->title = $request->title;
             $post->description = $request->description;
-            $post->save(); //c'est l'action qui modifie les datas à la soumission du formulaire
+            // je vérifie ici, si le user_id correspond à l''id de l'auteur du post
+            if ($post->user_id == auth()->user()->id) {
+                $post->save(); //c'est l'action qui modifie les datas à la soumission du formulaire
+            } else {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'Vous n\'êtes pas l\'auteur de cet article. Vous ne pouvez pas le modifier'
+                ]);
+            }
 
             return response()->json([
                 'status' => 200,
@@ -68,7 +77,7 @@ class PostController extends Controller
         }
     }
 
-    // le controller de suppression
+    // la méthode de suppression
     public function delete(Post $post)  //Post $post effectue la vérification directemnt,je n'ai donc pas besoin du if(){}else{}
     {
         try {

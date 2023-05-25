@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
 
-class SignupUser extends FormRequest
+class LoginUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,14 +21,13 @@ class SignupUser extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string,
+     * @return array
      */
     public function rules(): array
     {
         return [
             //les règles à respecter pour que les données soient inserer dans la bd
-            'name' => 'required', // ceci dit que le titre est obligatoire
-            'email' => 'required|unique:users,email', // ceci dit que l'email est obligatoire, que l'email doit être unique dans la BDD users
+            'email' => 'required|email|exists:users,email', // ceci dit que l'email est obligatoire, que l'email doit être de type email,qu'il doit exister dans la table users dans la colone email
             'password' => 'required' // ceci dit que le mot de passe est requis
         ];
     }
@@ -47,10 +46,10 @@ class SignupUser extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Le nom est obligatoir',
-            'email.required' => 'L\'email est obligatoire',
-            'email.unique' => 'Cette adresse email existe déjà',
-            'password.required' => 'Un mot de passe est requis'
+            'email.required' => 'Email non fourni',
+            'email.email' => 'Cette adresse email n\'est pas valide',
+            'email.exists' => 'L\'email saisi n\'existe pas',
+            'password.required' => 'Mot de passe non fourni'
         ];
     }
 }

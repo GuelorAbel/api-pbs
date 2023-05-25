@@ -21,9 +21,6 @@ use Illuminate\Support\Facades\Route;
 // récupérer la liste des articles
 Route::get('posts', [PostController::class, 'index']);
 
-// mettre à jour un article
-Route::put('posts/edit/{post}', [PostController::class, 'update']);
-
 // création d'un compte utilisateur
 Route::post('/signup', [UserController::class, 'signup']);
 // connexion d'un utilisateur existant
@@ -32,6 +29,7 @@ Route::post('/login', [UserController::class, 'login']);
 
 // c'est une route est protégée, elle retourne l'utilisateur connecté
 Route::middleware('auth:sanctum')->group(function () {
+
     // ajouter un article dans la base de données, on oeut utiliser POST | PUT | PATCH
     Route::post('posts/create', [PostController::class, 'store']);
     // mettre à jour un article

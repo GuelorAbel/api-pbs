@@ -28,14 +28,14 @@ Route::post('/login', [UserController::class, 'login']);
 
 
 // c'est une route est protégée, elle retourne l'utilisateur connecté
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth:sanctum')->prefix('posts')->group(function () {
 
     // ajouter un article dans la base de données, on oeut utiliser POST | PUT | PATCH
-    Route::post('posts/create', [PostController::class, 'store']);
+    Route::post('/create', [PostController::class, 'store']);
     // mettre à jour un article
-    Route::put('posts/edit/{post}', [PostController::class, 'update']);
+    Route::put('/edit/{post}', [PostController::class, 'update']);
     // supprimer un article
-    Route::delete('posts/{post}', [PostController::class, 'delete']);
+    Route::delete('/{post}', [PostController::class, 'delete']);
 
     // la route qui retourne l'utilisateur actuellement connecté
     Route::get('/user', function (Request $request) {

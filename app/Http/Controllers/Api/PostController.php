@@ -30,7 +30,7 @@ class PostController extends Controller
     {
         try {
 
-            $post = new Post();
+            $post = new Post(); // Je créé un nouveau post à partir du modèle Post
 
             // les données à ajouter
             $post->title = $request->title;
